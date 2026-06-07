@@ -2,9 +2,9 @@ replicaCount: 3
 
 image:
 
-  repository: 211125684226.dkr.ecr.us-east-1.amazonaws.com/image-processing-repo
+  repository: ""
 
-  tag: latest
+  tag: ""
 
   pullPolicy: Always
 
