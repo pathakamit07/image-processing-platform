@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: image-processing-worker
+
+  namespace: {{ .Values.namespace }}
+
+spec:
+
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+
+    matchLabels:
+
+      app: image-processing-worker
+
+  template:
+
+    metadata:
+
+      labels:
+
+        app: image-processing-worker
+
+    spec:
+
+      serviceAccountName: image-processing
+
+      containers:
+
+      - name: worker
+
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        ports:
+
+        - containerPort: 8000
+
+        env:
+
+        - name: AWS_REGION
+
+          value: "{{ .Values.env.AWS_REGION }}"
+
+        - name: SQS_QUEUE_URL
+
+          value: "{{ .Values.env.SQS_QUEUE_URL }}"
+
+        - name: S3_BUCKET_NAME
+
+          value: "{{ .Values.env.S3_BUCKET_NAME }}"
+
+        - name: DYNAMODB_LOCK_TABLE
+
+          value: "{{ .Values.env.DYNAMODB_LOCK_TABLE }}"
+
+        - name: DYNAMODB_METADATA_TABLE
+
+          value: "{{ .Values.env.DYNAMODB_METADATA_TABLE }}"
+
+        resources:
+
+{{ toYaml .Values.resources | indent 10 }}

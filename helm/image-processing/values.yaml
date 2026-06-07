@@ -1,0 +1,51 @@
+replicaCount: 3
+
+image:
+
+  repository: 211125684226.dkr.ecr.us-east-1.amazonaws.com/image-processing-repo
+
+  tag: latest
+
+  pullPolicy: Always
+
+namespace: image-processing
+
+serviceAccount:
+
+  create: true
+
+resources:
+
+  requests:
+
+    cpu: 250m
+
+    memory: 256Mi
+
+  limits:
+
+    cpu: 500m
+
+    memory: 512Mi
+
+autoscaling:
+
+  enabled: true
+
+  minReplicas: 2
+
+  maxReplicas: 10
+
+  targetCPUUtilizationPercentage: 70
+
+env:
+
+  AWS_REGION: us-east-1
+
+  SQS_QUEUE_URL: "https://sqs.us-east-1.amazonaws.com/211125684226/image-processing-queue"
+
+  S3_BUCKET_NAME: "image-processing-output-demo-123456"
+
+  DYNAMODB_LOCK_TABLE: job-locks
+
+  DYNAMODB_METADATA_TABLE: job-metadata
