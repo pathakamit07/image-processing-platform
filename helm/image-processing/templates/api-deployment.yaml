@@ -4,19 +4,19 @@ kind: Deployment
 
 metadata:
 
-  name: image-processing-worker
+  name: image-processing-api
 
   namespace: {{ .Values.namespace }}
 
 spec:
 
-  replicas: {{ .Values.replicaCount }}
+  replicas: 2
 
   selector:
 
     matchLabels:
 
-      app: image-processing-worker
+      app: image-processing-api
 
   template:
 
@@ -24,7 +24,7 @@ spec:
 
       labels:
 
-        app: image-processing-worker
+        app: image-processing-api
 
     spec:
 
@@ -32,11 +32,25 @@ spec:
 
       containers:
 
-      - name: worker
+      - name: api
 
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
 
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        command:
+
+        - uvicorn
+
+        - app.main:app
+
+        - --host
+
+        - 0.0.0.0
+
+        - --port
+
+        - "8000"
 
         ports:
 

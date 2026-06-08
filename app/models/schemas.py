@@ -1,11 +1,27 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class TaskCreate(BaseModel):
-    title: str
-    description: Optional[str] = None
 
-class TaskUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    status: Optional[str] = None
+class JobRequest(BaseModel):
+
+    jobId: str
+
+    prompt: str
+
+
+class JobResponse(BaseModel):
+
+    success: bool
+
+    message: str
+
+    jobId: str
+
+
+class MetadataRecord(BaseModel):
+
+    jobId: str
+
+    status: str
+
+    s3Path: Optional[str] = None

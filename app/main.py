@@ -1,13 +1,12 @@
 from fastapi import FastAPI
-from app.config import APP_NAME, VERSION
-from app.api.tasks import router as task_router
-from app.middleware.request_logger import RequestLoggerMiddleware
 
-app = FastAPI(title=APP_NAME, version=VERSION)
+from app.api.jobs import router as jobs_router
+from app.api.health import router as health_router
 
-app.add_middleware(RequestLoggerMiddleware)
-app.include_router(task_router)
+app = FastAPI(
+    title="Image Processing Platform",
+    version="1.0.0"
+)
 
-@app.get("/health")
-def health():
-    return {"status": "UP"}
+app.include_router(jobs_router)
+app.include_router(health_router)

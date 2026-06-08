@@ -1,12 +1,37 @@
 # Terraform
-.terraform/
+
+**/.terraform/*
 *.tfstate
 *.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 .terraform.lock.hcl
 
-# Sensitive files
-terraform.tfvars
+# Python
 
-# OS files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+.env
+
+# Docker
+
+.dockerignore
+
+# VSCode
+
+.vscode/
+
+# OS
+
 .DS_Store
-Thumbs.db
+
+# Logs
+
+*.log

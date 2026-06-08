@@ -1,6 +1,19 @@
 import logging
+import json
+
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s"
+    format="%(message)s"
 )
-logger = logging.getLogger("task-manager")
+
+logger = logging.getLogger(
+    "image-processing"
+)
+
+
+def log_json(data):
+
+    logger.info(
+        json.dumps(data)
+    )
