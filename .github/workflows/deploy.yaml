@@ -21,10 +21,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    permissions:
-
-      contents: read
-
     steps:
 
     - name: Checkout Code
@@ -74,17 +70,31 @@ jobs:
         docker push \
         ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:${{ github.sha }}
 
+    - name: Install kubectl
+
+      uses: azure/setup-kubectl@v4
+
+      with:
+
+        version: latest
+
     - name: Install Helm
 
       uses: azure/setup-helm@v4
 
-    - name: Configure kubectl
+    - name: Configure kubeconfig
 
       run: |
 
         aws eks update-kubeconfig \
         --region $AWS_REGION \
         --name $EKS_CLUSTER_NAME
+
+    - name: Verify Cluster Access
+
+      run: |
+
+        kubectl get nodes
 
     - name: Deploy Using Helm
 
